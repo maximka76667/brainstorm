@@ -130,14 +130,14 @@ function App() {
       setIsGameOver(true);
       player.style.background = 'red';
     }
-  }, [playerHP])
+  }, [playerHP, player])
 
   React.useEffect(() => {
     if (enemyHP === 0) {
       setIsGameOver(true);
       player.style.background = 'lime';
     }
-  }, [enemyHP])
+  }, [enemyHP, player])
 
   React.useEffect(() => {
     const arrowNumber = generateArrow();
