@@ -6,12 +6,13 @@ function App() {
   const [player, setPlayer] = React.useState(null);
   const [top, setTop] = React.useState(startPosition.top);
   const [left, setLeft] = React.useState(startPosition.left);
+  const [isGameOver, setIsGameOver] = React.useState(false);
 
   // HP
   const [playerHPBar, setplayerHPBar] = React.useState(null);
   const [playerHP, setPlayerHP] = React.useState(100);
   const [enemyHPBar, setEnemyHPBar] = React.useState(null);
-  const [enemyHP, setEnemyHP] = React.useState(10);
+  const [enemyHP, setEnemyHP] = React.useState(100);
 
   // Arrows
   const [arrow, setArrow] = React.useState(0);
@@ -126,12 +127,14 @@ function App() {
 
   React.useEffect(() => {
     if (playerHP === 0) {
+      setIsGameOver(true);
       player.style.background = 'red';
     }
   }, [playerHP])
 
   React.useEffect(() => {
     if (enemyHP === 0) {
+      setIsGameOver(true);
       player.style.background = 'lime';
     }
   }, [enemyHP])
@@ -157,7 +160,7 @@ function App() {
   }, [arrowNumber, turn])
 
   return (
-    <div className="app" tabIndex="0" onKeyDown={playerHP <= 0 || enemyHP <= 0 ? null : movement}>
+    <div className="app" tabIndex="0" onKeyDown={isGameOver ? null : movement}>
       <div className="game">
         <div className="arrows">
           <p>{arrow}</p>
