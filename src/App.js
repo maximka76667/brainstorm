@@ -15,14 +15,12 @@ function App() {
   const [enemyHP, setEnemyHP] = React.useState(100);
 
   // Arrows
-  const [arrow, setArrow] = React.useState(0);
-  const [arrowNumber, setArrowNumber] = React.useState(0);
+  const [arrowsNumbers, setArrowsNumbers] = React.useState([]);
   const [turn, setTurn] = React.useState(-1);
 
-  const step = 10;
+  const damage = 5;
 
   function movement(e) {
-    console.log(e.keyCode, e.key);
     switch (e.keyCode) {
       case 87:
         moveUp(e);
@@ -52,36 +50,36 @@ function App() {
   function moveUp(e) {
     e.preventDefault();
 
-    setTop(top - step);
+    setTop(top - damage);
     setTurn(0);
-    player.style.top = top - step + 'px';
+    player.style.top = top - damage + 'px';
     player.style.transform = 'rotate(270deg)';
   }
 
   function moveDown(e) {
     e.preventDefault();
 
-    setTop(top + step);
+    setTop(top + damage);
     setTurn(2);
-    player.style.top = top + step + 'px';
+    player.style.top = top + damage + 'px';
     player.style.transform = 'rotate(90deg)';
   }
 
   function moveLeft(e) {
     e.preventDefault();
 
-    setLeft(left - step);
+    setLeft(left - damage);
     setTurn(3);
-    player.style.left = left - step + 'px';
+    player.style.left = left - damage + 'px';
     player.style.transform = 'rotate(180deg)';
   }
 
   function moveRight(e) {
     e.preventDefault();
 
-    setLeft(left + step);
+    setLeft(left + damage);
     setTurn(1);
-    player.style.left = left + step + 'px';
+    player.style.left = left + damage + 'px';
     if (player.style.transform === 'rotate(270deg)') player.style.transform = 'rotate(360deg)';
     else player.style.transform = 'rotate(0deg)';
   }
@@ -103,16 +101,16 @@ function App() {
   function renderArrow(arrowNumber) {
     switch (arrowNumber) {
       case 0:
-        return '↑';
+        return (<span className="arrow">↑</span>);
 
       case 1:
-        return '→';
+        return (<span className="arrow">→</span>);
 
       case 2:
-        return '↓';
+        return (<span className="arrow">↓</span>);
 
       case 3:
-        return '←';
+        return (<span className="arrow">←</span>);
 
       default:
         break;
@@ -140,30 +138,38 @@ function App() {
   }, [enemyHP, player])
 
   React.useEffect(() => {
-    const arrowNumber = generateArrow();
-    setArrowNumber(arrowNumber);
-    setArrow(renderArrow(arrowNumber));
+    const arrows = [];
+    for (let i = 0; i < 9; i++) {
+      const arrowNumber = generateArrow();
+      arrows.push(arrowNumber);
+    }
+    setArrowsNumbers(arrows);
+    // eslint-disable-next-line
   }, [])
 
   React.useEffect(() => {
-    console.log(arrowNumber, turn);
     if (turn === -1) return;
-    if (turn === arrowNumber) {
-      const arrowNumber = generateArrow();
-      setArrowNumber(arrowNumber);
-      setArrow(renderArrow(arrowNumber));
+    if (turn === arrowsNumbers[4]) {
       damageEnemy();
     } else {
       damagePlayer();
     }
+    const arrowNumber = generateArrow();
+    const newArrowsNumber = arrowsNumbers.filter((n, i) => i !== 0);
+    setArrowsNumbers([...newArrowsNumber, arrowNumber]);
     setTurn(-1);
-  }, [arrowNumber, turn])
+    // eslint-disable-next-line
+  }, [arrowsNumbers, turn]);
 
   return (
     <div className="app" tabIndex="0" onKeyDown={isGameOver ? null : movement}>
       <div className="game">
         <div className="arrows">
-          <p>{arrow}</p>
+          <p className="arrows__container">
+            {
+              arrowsNumbers.map((arrowNumber) => renderArrow(arrowNumber))
+            }
+          </p>
         </div>
         <div className="health-bar health-bar_enemy"></div>
         <div className="player">
@@ -178,10 +184,10 @@ function App() {
         </div>
         <div className="health-bar health-bar_player" style={{ width: '100%' }}></div>
       </div>
-      <button className="game__move-button game__move-button_to_up" onClick={moveUp}>↑</button>
-      <button className="game__move-button game__move-button_to_right" onClick={moveRight}>→</button>
-      <button className="game__move-button game__move-button_to_down" onClick={moveDown}>↓</button>
-      <button className="game__move-button game__move-button_to_left" onClick={moveLeft}>←</button>
+      <button className="game__move-button game__move-button_to_up" onClick={isGameOver ? null : moveUp}>↑</button>
+      <button className="game__move-button game__move-button_to_right" onClick={isGameOver ? null : moveRight}>→</button>
+      <button className="game__move-button game__move-button_to_down" onClick={isGameOver ? null : moveDown}>↓</button>
+      <button className="game__move-button game__move-button_to_left" onClick={isGameOver ? null : moveLeft}>←</button>
     </div>
   );
 }

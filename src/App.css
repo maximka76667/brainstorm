@@ -38,7 +38,7 @@
 }
 
 .game {
-  width: 300px;
+  width: 350px;
   height: 300px;
   margin: 0 auto;
   background-color: grey;
@@ -155,4 +155,24 @@
 
 .health-bar_player {
   bottom: -30px;
+}
+
+.arrows__container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+
+.arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+}
+
+.arrow:nth-child(5) {
+  font-weight: bold;
+  background-color: red;
 }
