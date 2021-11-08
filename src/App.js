@@ -3,10 +3,12 @@ import React from 'react';
 import { startPosition } from './config';
 
 function App() {
+
   const [player, setPlayer] = React.useState(null);
   const [top, setTop] = React.useState(startPosition.top);
   const [left, setLeft] = React.useState(startPosition.left);
   const [isGameOver, setIsGameOver] = React.useState(false);
+  const [isPlayerMoves, setIsPlayerMoves] = React.useState(false);
 
   // HP
   const [playerHPBar, setplayerHPBar] = React.useState(null);
@@ -18,9 +20,26 @@ function App() {
   const [arrowsNumbers, setArrowsNumbers] = React.useState([]);
   const [turn, setTurn] = React.useState(-1);
 
+  const step = 15;
   const damage = 5;
 
   function movement(e) {
+    switch (e.keyCode) {
+      case 65:
+      case 68:
+      case 83:
+      case 87:
+        return move(e);
+
+      case 32:
+        return damagePlayer(e);
+
+      default:
+        break;
+    }
+  }
+
+  function move(e) {
     switch (e.keyCode) {
       case 87:
         moveUp(e);
@@ -38,60 +57,57 @@ function App() {
         moveRight(e);
         break;
 
-      case 32:
-        damagePlayer(e);
-        break;
-
       default:
         break;
     }
+    setIsPlayerMoves(true);
+    setTimeout(() => setIsPlayerMoves(false), 1000);
   }
 
   function moveUp(e) {
     e.preventDefault();
 
-    setTop(top - damage);
+    setTop(top - step);
     setTurn(0);
-    player.style.top = top - damage + 'px';
-    player.style.transform = 'rotate(270deg)';
+    player.style.top = top - step + 'px';
+
   }
 
   function moveDown(e) {
     e.preventDefault();
 
-    setTop(top + damage);
+    setTop(top + step);
     setTurn(2);
-    player.style.top = top + damage + 'px';
-    player.style.transform = 'rotate(90deg)';
+    player.style.top = top + step + 'px';
+
   }
 
   function moveLeft(e) {
     e.preventDefault();
 
-    setLeft(left - damage);
+    setLeft(left - step);
     setTurn(3);
-    player.style.left = left - damage + 'px';
-    player.style.transform = 'rotate(180deg)';
+    player.style.left = left - step + 'px';
+
   }
 
   function moveRight(e) {
     e.preventDefault();
 
-    setLeft(left + damage);
+    setLeft(left + step);
     setTurn(1);
-    player.style.left = left + damage + 'px';
-    if (player.style.transform === 'rotate(270deg)') player.style.transform = 'rotate(360deg)';
-    else player.style.transform = 'rotate(0deg)';
+    player.style.left = left + step + 'px';
+
   }
 
   function damagePlayer() {
-    setPlayerHP(playerHP - 5);
-    playerHPBar.style.width = playerHP - 5 + '%';
+    setPlayerHP(playerHP - damage);
+    playerHPBar.style.width = playerHP - damage + '%';
   }
 
   function damageEnemy() {
-    setEnemyHP(enemyHP - 5);
-    enemyHPBar.style.width = enemyHP - 5 + '%';
+    setEnemyHP(enemyHP - damage);
+    enemyHPBar.style.width = enemyHP - damage + '%';
   }
 
   function generateArrow() {
@@ -119,8 +135,8 @@ function App() {
 
   React.useEffect(() => {
     setPlayer(document.querySelector('.player'));
-    setplayerHPBar(document.querySelector('.health-bar_player'));
-    setEnemyHPBar(document.querySelector('.health-bar_enemy'));
+    setplayerHPBar(document.querySelector('.health-bar_player .health-bar__points'));
+    setEnemyHPBar(document.querySelector('.health-bar_enemy .health-bar__points'));
   }, []);
 
   React.useEffect(() => {
@@ -167,12 +183,14 @@ function App() {
         <div className="arrows">
           <p className="arrows__container">
             {
-              arrowsNumbers.map((arrowNumber) => renderArrow(arrowNumber))
+              arrowsNumbers.map(renderArrow)
             }
           </p>
         </div>
-        <div className="health-bar health-bar_enemy"></div>
-        <div className="player">
+        <div className="health-bar health-bar_enemy">
+          <div className="health-bar__points"></div>
+        </div>
+        <div className={`player ${isPlayerMoves && "player_moves"}`}>
           <div>
             <div className="eyes">
               <div className="eye"></div>
@@ -182,7 +200,9 @@ function App() {
           </div>
           <div className="hair"></div>
         </div>
-        <div className="health-bar health-bar_player" style={{ width: '100%' }}></div>
+        <div className="health-bar health-bar_player">
+          <div className="health-bar__points"></div>
+        </div>
       </div>
       <button className="game__move-button game__move-button_to_up" onClick={isGameOver ? null : moveUp}>↑</button>
       <button className="game__move-button game__move-button_to_right" onClick={isGameOver ? null : moveRight}>→</button>
