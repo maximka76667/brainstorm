@@ -29,6 +29,10 @@ function App() {
       case 68:
       case 83:
       case 87:
+      case 37:
+      case 38:
+      case 39:
+      case 40:
         return move(e);
 
       case 32:
@@ -42,18 +46,22 @@ function App() {
   function move(e) {
     switch (e.keyCode) {
       case 87:
+      case 38:
         moveUp(e);
         break;
 
       case 65:
+      case 37:
         moveLeft(e);
         break;
 
       case 83:
+      case 40:
         moveDown(e);
         break;
 
       case 68:
+      case 39:
         moveRight(e);
         break;
 
