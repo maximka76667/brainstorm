@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/brainstorm/static/css/main.aedfd0e4.chunk.css",
-    "main.js": "/brainstorm/static/js/main.0ba117da.chunk.js",
-    "main.js.map": "/brainstorm/static/js/main.0ba117da.chunk.js.map",
+    "main.css": "/brainstorm/static/css/main.482c6fbc.chunk.css",
+    "main.js": "/brainstorm/static/js/main.f65aa4f5.chunk.js",
+    "main.js.map": "/brainstorm/static/js/main.f65aa4f5.chunk.js.map",
     "runtime-main.js": "/brainstorm/static/js/runtime-main.453d38ec.js",
     "runtime-main.js.map": "/brainstorm/static/js/runtime-main.453d38ec.js.map",
     "static/js/2.6e1b2e4e.chunk.js": "/brainstorm/static/js/2.6e1b2e4e.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.1a7f5068.chunk.js": "/brainstorm/static/js/3.1a7f5068.chunk.js",
     "static/js/3.1a7f5068.chunk.js.map": "/brainstorm/static/js/3.1a7f5068.chunk.js.map",
     "index.html": "/brainstorm/index.html",
-    "static/css/main.aedfd0e4.chunk.css.map": "/brainstorm/static/css/main.aedfd0e4.chunk.css.map",
+    "static/css/main.482c6fbc.chunk.css.map": "/brainstorm/static/css/main.482c6fbc.chunk.css.map",
     "static/js/2.6e1b2e4e.chunk.js.LICENSE.txt": "/brainstorm/static/js/2.6e1b2e4e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.453d38ec.js",
     "static/js/2.6e1b2e4e.chunk.js",
-    "static/css/main.aedfd0e4.chunk.css",
-    "static/js/main.0ba117da.chunk.js"
+    "static/css/main.482c6fbc.chunk.css",
+    "static/js/main.f65aa4f5.chunk.js"
   ]
 }
